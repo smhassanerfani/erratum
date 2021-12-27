@@ -5,8 +5,6 @@ int main()
 	int x;
 	printf("Enter an integer:\n");
 	scanf("%d", &x);
-	x = -x--;
-	printf("%d\n", x);
 
 	if(x % 2 == 0)
 	{
