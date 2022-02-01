@@ -16,7 +16,7 @@ int main()
 	// 	if(g == EOF) break;
 	// }
 
-	while((g = getchar()) != 'q') //EOF: end of file
+	while((g = getchar()) != EOF) //EOF (End Of File): ctrl+d
 	{
 		switch(g)
 		{
