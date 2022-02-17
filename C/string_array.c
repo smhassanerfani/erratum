@@ -14,7 +14,7 @@ int main()
 	int M = 0;
 	for(int i=0; i<N; i++)
 	{
-		if(name[i] == '\0') break;
+		if(name[i] == '\0') break; // NULL character
 		M++;
 		printf("%c\n", name[i]);
 	}
