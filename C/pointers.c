@@ -13,6 +13,7 @@ int main()
 
 	func1(&a);
 	printf("Your number after calling func1: %d\n", a);
+	printf("a = %d, is stored at %p\n", a, &a);
 
 	return 0;
 }
