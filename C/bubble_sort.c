@@ -40,7 +40,7 @@ void bubble_sort(int lst[], int num)
 		{
 			if(lst[j] > lst[j+1])
 			{
-				swap(lst, i, j);
+				swap(lst, j, j+1);
 				swapped = 1;
 			}
 		}
