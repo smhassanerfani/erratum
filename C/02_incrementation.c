@@ -11,6 +11,9 @@ int main()
 	b1 = a1++;
 	b2 = ++a2;
 
+	printf("a1 = %d\n", a1);
+	printf("a2 = %d\n", a2);
+
 	printf("b1 = %d\n", b1);
 	printf("b2 = %d\n", b2);
 
