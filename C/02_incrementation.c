@@ -1,5 +1,11 @@
 #include <stdio.h>
 
+/*
+x++ increments the value of variable x after processing the current statement.
+++x increments the value of variable x before processing the current statement.
+x += ++i will increment i and add i+1 to x. x += i++ will add i to x, then increment i.
+*/
+
 int main()
 {
 	int a1, a2;
