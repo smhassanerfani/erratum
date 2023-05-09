@@ -2,12 +2,12 @@ import torch
 import torch.nn as nn
 
 
-def gradient_penalty(critic, real, fake, device='cpu'):
+def gradient_penalty(critic, labels, real, fake, device='cpu'):
     BATCH_SIZE, C, H, W = real.shape
     epsilon = torch.rand((BATCH_SIZE, 1, 1, 1)).repeat(1, C, H, W).to(device)
     interpolated_images = real * epsilon + fake * (1 - epsilon)
 
-    mixed_score = critic(interpolated_images)
+    mixed_score = critic(interpolated_images, labels)
 
     # mixed_score = func(interpolated_images)
     # Computes and returns the sum of gradients of outputs with respect to the inputs.
