@@ -15,6 +15,8 @@ LEARNING_RATE = 1E-4
 BATCH_SIZE = 64
 IMAGE_SIZE = 64
 CHANNELS_IMG = 1
+NUM_CLASSES = 10
+GEN_EMBEDDING = 10
 NOISE_DIM = 100
 NUM_EPOCHS = 5
 FEATURES_DISC = 16
@@ -33,8 +35,8 @@ transforms = transforms.Compose(
 dataset = datasets.MNIST(root='../dataset/', train=True, transform=transforms, download=True)
 dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 
-gen = Generator(NOISE_DIM, CHANNELS_IMG, FEATURES_GEN).to(device)
-critic = Critic(CHANNELS_IMG, FEATURES_DISC).to(device)
+gen = Generator(NOISE_DIM, CHANNELS_IMG, FEATURES_GEN, NUM_CLASSES, IMAGE_SIZE, GEN_EMBEDDING).to(device)
+critic = Critic(CHANNELS_IMG, FEATURES_DISC, NUM_CLASSES, IMAGE_SIZE).to(device)
 initialize_weights(gen)
 initialize_weights(critic)
 
@@ -42,26 +44,27 @@ opt_gen = optim.Adam(gen.parameters(), lr=LEARNING_RATE, betas=(0.0, 0.9))
 opt_critic = optim.Adam(critic.parameters(), lr=LEARNING_RATE, betas=(0.0, 0.9))
 
 fixed_noise = torch.randn(32, NOISE_DIM, 1, 1).to(device)
-writer_real = SummaryWriter('../logs/WGANGP/real')
-writer_fake = SummaryWriter('../logs/WGANGP/fake')
-writer_loss = SummaryWriter('../logs/WGANGP/loss')
+writer_real = SummaryWriter('../logs/CWGANGP/real')
+writer_fake = SummaryWriter('../logs/CWGANGP/fake')
+writer_loss = SummaryWriter('../logs/CWGANGP/loss')
 step = 0
 
 gen.train()
 critic.train()
 
 for epoch in range(NUM_EPOCHS):
-    for batch_idx, (real, _) in enumerate(dataloader):
+    for batch_idx, (real, labels) in enumerate(dataloader):
 
         real = real.to(device)
+        labels = labels.to(device)
 
         ### Train critic:
         for _ in range(CRITIC_ITERATION):
             noise = torch.randn(real.size(0), NOISE_DIM, 1, 1).to(device)
-            fake = gen(noise)
-            critic_real = critic(real).reshape(-1)
-            critic_fake = critic(fake).reshape(-1)
-            gp = gradient_penalty(critic, real, fake, device=device)
+            fake = gen(noise, labels)
+            critic_real = critic(real, labels).reshape(-1)
+            critic_fake = critic(fake, labels).reshape(-1)
+            gp = gradient_penalty(critic, labels, real, fake, device=device)
             loss_critic = - (torch.mean(critic_real) - torch.mean(critic_fake)) + LAMBDA_GP * gp
 
             critic.zero_grad()
@@ -69,7 +72,7 @@ for epoch in range(NUM_EPOCHS):
             opt_critic.step()
 
         ### Train Generator: min -E[critic(gen_fake)]
-        output = critic(fake).reshape(-1)
+        output = critic(fake, labels).reshape(-1)
         loss_gen = - torch.mean(output)
 
         gen.zero_grad()
@@ -86,7 +89,7 @@ for epoch in range(NUM_EPOCHS):
                 writer_loss.add_scalar('Discriminator Loss', loss_critic, global_step=step)
                 writer_loss.add_scalar('Generator Loss', loss_gen, global_step=step)
 
-                fake = gen(fixed_noise)
+                fake = gen(noise, labels)
 
                 img_grid_fake = torchvision.utils.make_grid(fake[:32], normalize=True)
                 img_grid_real = torchvision.utils.make_grid(real[:32], normalize=True)
