@@ -6,19 +6,22 @@ import torchvision
 from torchvision import transforms, datasets
 from torch.utils.tensorboard import SummaryWriter
 from DCGAN import Discriminator, Generator, initialize_weights
+from dataloader import ATeX
+from utils import AdjustLearningRate
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(torch.cuda.get_device_name(device))
 
-LEARNING_RATE = 2E-4
+LEARNING_RATE = 2.0E-5
 BATCH_SIZE = 128
 IMAGE_SIZE = 64
-CHANNELS_IMG = 1
-NOISE_DIM = 100
-NUM_EPOCHS = 10
+CHANNELS_IMG = 3
+NOISE_DIM = 128
+NUM_EPOCHS = 30
 FEATURES_DISC = 64
 FEATURES_GEN = 64
+
 
 transforms = transforms.Compose(
     [
@@ -28,7 +31,9 @@ transforms = transforms.Compose(
     ]
 )
 
-dataset = datasets.MNIST(root='./dataset/', train=True, transform=transforms, download=True)
+# dataset = datasets.MNIST(root='./dataset/', train=True, transform=transforms, download=True)
+dataset = ATeX(transform=transforms)
+
 dataloader = DataLoader(dataset, batch_size=BATCH_SIZE, shuffle=True)
 
 gen = Generator(NOISE_DIM, CHANNELS_IMG, FEATURES_GEN).to(device)
@@ -40,17 +45,22 @@ opt_gen = optim.Adam(gen.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
 opt_disc = optim.Adam(disc.parameters(), lr=LEARNING_RATE, betas=(0.5, 0.999))
 criterion = nn.BCELoss()
 
+
+max_iter = NUM_EPOCHS * len(dataloader.dataset)
+scheduler_gen = AdjustLearningRate(opt_gen, LEARNING_RATE, max_iter, 0.9)
+scheduler_disc = AdjustLearningRate(opt_disc, LEARNING_RATE, max_iter, 0.9)
+
 fixed_noise = torch.randn(32, NOISE_DIM, 1, 1).to(device)
-writer_real = SummaryWriter('logs/DCGAN/real')
-writer_fake = SummaryWriter('logs/DCGAN/fake')
-writer_loss = SummaryWriter('logs/DCGAN/loss')
+writer_real = SummaryWriter('logs/ATeX/real')
+writer_fake = SummaryWriter('logs/ATeX/fake')
+writer_loss = SummaryWriter('logs/ATeX/loss')
 step = 0
 
 gen.train()
 disc.train()
 
 for epoch in range(NUM_EPOCHS):
-    for batch_idx, (real, _) in enumerate(dataloader):
+    for batch_idx, (real, _, _) in enumerate(dataloader):
 
         real = real.to(device)
         noise = torch.randn(real.size(0), NOISE_DIM, 1, 1).to(device)
@@ -69,6 +79,9 @@ for epoch in range(NUM_EPOCHS):
         loss_disc.backward()
         opt_disc.step()
 
+        scheduler_disc.num_of_iterations += real.size(0)
+        lr_disc = scheduler_disc(scheduler_disc.num_of_iterations)
+
         ### Train Generator: min log(1 - D(G(z))) <-> max log(D(G(z))
         output = disc(fake).reshape(-1)
         loss_gen = criterion(output, torch.ones_like(output))
@@ -77,9 +90,13 @@ for epoch in range(NUM_EPOCHS):
         loss_gen.backward()
         opt_gen.step()
 
-        if batch_idx % 20 == 0:
-            print(f"Epoch [{epoch}/{NUM_EPOCHS}] Batch {batch_idx}/{len(dataloader)} "
-                  f"Loss D: {loss_disc:.4f}, loss G: {loss_gen:.4f}"
+        scheduler_gen.num_of_iterations += real.size(0)
+        lr_gen = scheduler_gen(scheduler_gen.num_of_iterations)
+
+        if batch_idx == 0:
+            print(f"Epoch: [{epoch}/{NUM_EPOCHS}]\tBatch: {batch_idx:>2}/{len(dataloader)} "
+                  f"Loss D: {loss_disc:.4f}, loss G: {loss_gen:.4f} "
+                  f"LR D:{lr_disc:#.4E}, LR G: {lr_gen:#.4E}"
                   )
 
             with torch.no_grad():
