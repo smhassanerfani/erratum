@@ -6,6 +6,6 @@
 
 # Unignore all dirs
 !*/
-
-.venv/
-.DS_Store
+venv/
+GANs/dataset/
+GANs/logs/
