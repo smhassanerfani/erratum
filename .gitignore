@@ -3,6 +3,7 @@
 
 # Unignore all with extensions
 !*.*
+*.txt
 
 # Unignore all dirs
 !*/
