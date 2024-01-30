@@ -1,15 +1,15 @@
-program precision
-    implicit none
+PROGRAM Precision
+    IMPLICIT NONE
 
-    integer, parameter :: ikind=selected_real_kind(6)
+    INTEGER, PARAMETER :: IKIND=SELECTED_REAL_KIND(6)
     real :: x, y, z
 
-    ! double precision :: x, y, z
+    ! DOUBLE PRECISION :: x, y, z
 
     x = 10.0
     y = 3.0
 
     z = x / y
-    print *, z
+    PRINT *, z
     
-end program precision
+END PROGRAM Precision

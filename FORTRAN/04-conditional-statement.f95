@@ -1,30 +1,30 @@
-program conditions
+PROGRAM Conditions
 
-    implicit none
+    IMPLICIT NONE
 
     ! Variables Declaration
-    real :: x, y, ans
-    integer :: choice
+    REAL :: x, y, ans
+    INTEGER :: choice
 
     x = 12.0
     y = 3.0
 
-    print *, 'Please choose one option: '
-    print *, '1- Summation'
-    print *, '2- Multiplication'
-    print *, '3- Division'
+    PRINT *, 'Please choose one option: '
+    PRINT *, '1- Summation'
+    PRINT *, '2- Multiplication'
+    PRINT *, '3- Division'
 
-    read *, choice
+    READ *, choice
 
-    if (choice == 1) then
+    IF (choice == 1) THEN
         ans = x + y
-    end if
-    if (choice == 2) then
+    END IF
+    IF (choice == 2) THEN
         ans = x * y
-    end if
-    if (choice == 3) then
+    END IF
+    IF (choice == 3) THEN
         ans = x / y
-    end if
+    END IF
 
-    print *, 'According to what you chose, answer is: ', ans
-end program conditions
+    PRINT *, 'According to what you chose, answer is: ', ans
+END PROGRAM Conditions

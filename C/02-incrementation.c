@@ -6,8 +6,7 @@ x++ increments the value of variable x after processing the current statement.
 x += ++i will increment i and add i+1 to x. x += i++ will add i to x, then increment i.
 */
 
-int main()
-{
+int main(){
 	int a1, a2;
 	int b1, b2;
 

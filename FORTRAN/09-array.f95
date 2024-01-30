@@ -1,13 +1,13 @@
-program array
-    implicit none
+PROGRAM Array
+    IMPLICIT NONE
 
     ! Variable Declaration
     ! integer, parameter :: ikind = 5
-    real, allocatable, dimension(:) :: x
-    integer :: elements
+    REAL, ALLOCATABLE, DIMENSION(:) :: x
+    INTEGER :: elements
     
     elements = 5
-    allocate(x(elements))
+    ALLOCATE(x(elements))
 
     x(1) = 1.00
     x(2) = 2.00
@@ -15,8 +15,8 @@ program array
     x(4) = 4.00
     x(5) = 5.00
 
-    print *, x
+    PRINT *, x
 
-    deallocate(x)
+    DEALLOCATE(x)
     
-end program array
+END PROGRAM Array

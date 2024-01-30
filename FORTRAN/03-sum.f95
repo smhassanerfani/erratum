@@ -1,17 +1,17 @@
-program sum
+PROGRAM Sum
 
-    implicit none
+    IMPLICIT NONE
 
     ! Variable Declaration
-    real :: x, y, ans
+    REAL :: x, y, ans
 
-    print *, 'Enter two number: '
+    PRINT *, 'Enter two number: '
     
-    read *, x
-    read *, y
+    READ *, x
+    READ *, y
 
     ans = x + y
 
-    print *, 'The total value is: ', ans
+    PRINT *, 'The total value is: ', ans
 
-end program sum
+END PROGRAM Sum

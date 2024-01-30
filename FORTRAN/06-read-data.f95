@@ -1,13 +1,13 @@
-program readdata
+PROGRAM ReadData
 
-    implicit none
+    IMPLICIT NONE
 
     ! Variables Declaration
-    real :: x, y, z, k
+    REAL :: x, y, z, k
 
-    open(10, file='data.txt')
-    read(10, *) x, y, z, k
+    OPEN(10, FILE='data.txt')
+    READ(10, *) x, y, z, k
 
-    print *, x, y, z, k
+    PRINT *, x, y, z, k
 
-end program readdata
+END PROGRAM ReadData

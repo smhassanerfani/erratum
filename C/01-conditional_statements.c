@@ -1,30 +1,22 @@
 #include <stdio.h>
 
-int main()
-{
+int main(){
+
 	int x;
 	printf("Enter an integer:\n");
 	scanf("%d", &x);
 
-	if(x % 2 == 0)
-	{
+	if(x % 2 == 0){
 		printf("%d in EVEN.\n", x);
-	}
-	else
-	{
+	} else {
 		printf("%d is ODD.\n", x);
 	}
 
-	if(x > 0)
-	{
+	if(x > 0){
 		printf("%d is positive.\n", x);
-	}
-	else if (x < 0)
-	{
+	} else if (x < 0){
 		printf("%d is negative.\n", x);
-	}
-	else
-	{
+	} else {
 		printf("%d is zero.\n", x);
 	}
 

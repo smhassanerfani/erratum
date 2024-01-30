@@ -1,5 +1,5 @@
-program helloworld
+PROGRAM HelloWorld
 
-    print *,'Hello World!'
+    PRINT *,'Hello World!'
 
-    end program helloworld
+    END PROGRAM HelloWorld

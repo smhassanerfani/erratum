@@ -2,15 +2,15 @@
 #define TRUE -1
 #define FALSE 0
 
-int main()
-{
+int main(){
+	
 	int n = 10;
 	int a, s, i;
 
 	i = 0;
 	s = 0;
-	while(TRUE) // Use i<n for limited entries
-	{
+	while(TRUE) { // Use i<n for limited entries
+
 		printf("Enter a number: ");
 		scanf("%d", &a);
 		if(a == -1) break;

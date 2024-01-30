@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
-int main()
-{
+int main(){
+
 	float a, d, p;
 	int n;
 
@@ -32,8 +32,8 @@ int main()
 
 	/*
 	int i = 0;
-	while(i<n)
-	{
+	while(i<n){
+
 		ai = a + i * d;
 		s += ai;
 
@@ -43,8 +43,8 @@ int main()
 	}
 	*/
 
-	for(int i = 0; i < n; i++)
-	{
+	for(int i = 0; i < n; i++){
+
 		ai = a + i * d;
 		s += ai;
 

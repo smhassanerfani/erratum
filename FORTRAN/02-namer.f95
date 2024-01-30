@@ -1,17 +1,17 @@
-program namer
+PROGRAM NameR
     ! This checks if the variables are defined correctly.
-    implicit none
+    IMPLICIT NONE
 
     ! Variables Declaration
-    character :: name * 10
+    CHARACTER :: name * 10
 
     ! Ask for writing the name
-    print *, 'What is your name?'
+    PRINT *, 'What is your name?'
 
     ! Read the name
-    read *, name
+    READ *, name
 
     ! Print the name
-    print *, 'My name is ', name
+    PRINT *, 'My name is ', name
 
-end program namer
+END PROGRAM NameR

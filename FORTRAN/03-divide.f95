@@ -1,12 +1,12 @@
-program divide
-    implicit none
+PROGRAM Divide
+    IMPLICIT NONE
 
     ! Variable Declaration
-    real :: x, y
+    REAL :: x, y
 
     x = 1.0
     y = x / 3.0
 
-    print *, 'Results of 1 divided by 3 is: ', y
+    PRINT *, 'Results of 1 divided by 3 is: ', y
 
-end program divide
+END PROGRAM Divide

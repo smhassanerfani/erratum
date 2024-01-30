@@ -1,26 +1,26 @@
-program fortran
+PROGRAM Fortran
     
-    implicit none
+    IMPLICIT NONE
 
     ! Variable Declaration
-    double precision, allocatable, dimension(:) :: mat
-    integer :: i, j
+    DOUBLE PRECISION, ALLOCATABLE, DIMENSION(:) :: mat
+    INTEGER :: i, j
 
-    print *, 'Enter the number of Elements: '
-    read *, i
+    PRINT *, 'Enter the number of Elements: '
+    READ *, i
 
-    allocate(mat(i))
+    ALLOCATE(mat(i))
 
-    do j = 1, i
+    DO j = 1, i
         
         mat(j) = cos(0.1 * j)
 
-    end  do
+    END  DO
 
     ! print *, mat
-    write(*, 1) mat
-    1 format(2f10.5)
+    WRITE(*, 1) mat
+    1 FORMAT(2F10.5)
 
-    deallocate(mat)
+    DEALLOCATE(mat)
 
-end program
+END PROGRAM

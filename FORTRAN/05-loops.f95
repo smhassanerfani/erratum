@@ -1,14 +1,13 @@
-program loop
-    implicit none
+PROGRAM Loop
+
+    IMPLICIT NONE
 
     ! Variables Declaration
-    integer :: i
+    INTEGER :: i
 
-    do i = 0, 20, 5 
-        print *, i
+    DO i = 0, 20, 5 
+        PRINT *, i
 
-    end do
+    END DO
 
-
-
-end program loop
+END PROGRAM Loop
