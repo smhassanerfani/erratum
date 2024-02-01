@@ -7,6 +7,6 @@
 
 # Unignore all dirs
 !*/
-venv/
+.venv/
 GANs/dataset/
 GANs/logs/
